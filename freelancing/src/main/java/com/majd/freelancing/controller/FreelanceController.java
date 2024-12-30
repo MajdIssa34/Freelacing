@@ -23,7 +23,7 @@ public class FreelanceController {
 
     @GetMapping("/posts/{text}")
     public List<FreelancerModel> search(@PathVariable String text){
-        return searchRepo.findByText(text);
+        return searchRepo.findBySkills(text);
     }
 
     @PostMapping("/post")

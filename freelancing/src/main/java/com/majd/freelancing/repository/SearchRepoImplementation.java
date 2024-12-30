@@ -24,24 +24,23 @@ public class SearchRepoImplementation implements SearchRepository{
     MongoConverter mongoConverter;
 
     @Override
-    public List<FreelancerModel> findByText(String text) {
+    public List<FreelancerModel> findBySkills(String text) {
 
         final List<FreelancerModel> freelancers = new ArrayList<>();
 
         MongoDatabase database = mongoClient.getDatabase("freenlancers");
         MongoCollection<Document> collection = database.getCollection("freelancePosts");
         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-                        new Document("index", "default").append("text",
-                                new Document("query", text).append("path", Arrays.asList("skills", "portfolio")))),
-                new Document("$sort",
-                        new Document("rating", -1L)),
-                new Document("$sort",
-                        new Document("hourly_rate", 1L)),
-                new Document("$limit", 5L)));
+                new Document("index", "default")
+                        .append("text",
+                                new Document("query", text)
+                                        .append("path", "skills")))));
 
         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
 
         return freelancers;
 
     }
+
+
 }
