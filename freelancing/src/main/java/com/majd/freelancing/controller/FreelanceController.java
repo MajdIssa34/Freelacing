@@ -21,13 +21,29 @@ public class FreelanceController {
         return repo.findAll();
     }
 
-    @GetMapping("/posts/{text}")
-    public List<FreelancerModel> search(@PathVariable String text){
+    @GetMapping("/skills/{text}")
+    public List<FreelancerModel> searchBySkills(@PathVariable String text){
         return searchRepo.findBySkills(text);
     }
 
     @PostMapping("/post")
     public FreelancerModel addPost(@RequestBody FreelancerModel freelancerModel){
         return repo.save(freelancerModel);
+    }
+
+    @GetMapping("/project/{text}")
+    public List<FreelancerModel> searchByProjects(@PathVariable String text){
+        return searchRepo.findByProjects(text);
+    }
+    @GetMapping("/skillsProjects/{text}/{portfolio}")
+    public List<FreelancerModel> searchBySkillsAndPortfolio(
+            @PathVariable String text,
+            @PathVariable String portfolio) {
+        return searchRepo.findBySkillsAndPortfolio(text, portfolio);
+    }
+
+    @GetMapping("/rating/{rating}")
+    public List<FreelancerModel> searchByRating(@PathVariable Double rating){
+        return searchRepo.findByRating(rating);
     }
 }

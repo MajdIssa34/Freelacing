@@ -42,5 +42,63 @@ public class SearchRepoImplementation implements SearchRepository{
 
     }
 
+    @Override
+    public List<FreelancerModel> findByProjects(String text) {
+
+        final List<FreelancerModel> freelancers = new ArrayList<>();
+
+        MongoDatabase database = mongoClient.getDatabase("freenlancers");
+        MongoCollection<Document> collection = database.getCollection("freelancePosts");
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+                new Document("index", "default")
+                        .append("text",
+                                new Document("query", text)
+                                        .append("path", "portfolio.projectName")))));
+
+        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+
+        return freelancers;
+    }
+
+    @Override
+    public List<FreelancerModel> findBySkillsAndPortfolio(String skills, String portfolio) {
+
+        final List<FreelancerModel> freelancers = new ArrayList<>();
+
+        MongoDatabase database = mongoClient.getDatabase("freenlancers");
+        MongoCollection<Document> collection = database.getCollection("freelancePosts");
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+                new Document("index", "default")
+                        .append("compound",
+                                new Document("must", Arrays.asList(new Document("text",
+                                                new Document("query", skills)
+                                                        .append("path", "skills")),
+                                        new Document("text",
+                                                new Document("query", portfolio)
+                                                        .append("path", "portfolio.projectName"))))))));
+
+        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+
+        return freelancers;
+    }
+
+    @Override
+    public List<FreelancerModel> findByRating(Double max) {
+
+        final List<FreelancerModel> freelancers = new ArrayList<>();
+
+        MongoDatabase database = mongoClient.getDatabase("freenlancers");
+        MongoCollection<Document> collection = database.getCollection("freelancePosts");
+        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+                new Document("index", "default")
+                        .append("range",
+                                new Document("path", "rating")
+                                        .append("gte", max)))));
+
+        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+
+        return freelancers;
+    }
+
 
 }
