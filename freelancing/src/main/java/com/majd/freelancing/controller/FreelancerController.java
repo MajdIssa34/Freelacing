@@ -1,9 +1,7 @@
 package com.majd.freelancing.controller;
 
-import com.majd.freelancing.FreelancerService;
-import com.majd.freelancing.repository.FreelancerRepository;
+import com.majd.freelancing.service.FreelancerService;
 import com.majd.freelancing.module.FreelancerModel;
-import com.majd.freelancing.repository.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

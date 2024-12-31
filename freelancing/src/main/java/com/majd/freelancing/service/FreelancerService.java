@@ -1,7 +1,6 @@
-package com.majd.freelancing;
+package com.majd.freelancing.service;
 
 import com.majd.freelancing.module.FreelancerModel;
-import com.majd.freelancing.repository.FreelancerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

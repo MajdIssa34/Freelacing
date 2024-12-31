@@ -1,4 +1,4 @@
-package com.majd.freelancing;
+package com.majd.freelancing.config;
 
 import org.springframework.ai.embedding.Embedding;
 import org.springframework.ai.embedding.EmbeddingModel;

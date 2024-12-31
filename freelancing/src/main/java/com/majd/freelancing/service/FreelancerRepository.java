@@ -1,4 +1,4 @@
-package com.majd.freelancing.repository;
+package com.majd.freelancing.service;
 
 import com.majd.freelancing.module.FreelancerModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
