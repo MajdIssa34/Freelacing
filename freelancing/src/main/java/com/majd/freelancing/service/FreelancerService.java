@@ -11,6 +11,10 @@ public class FreelancerService {
     @Autowired
     private FreelancerRepository freelancerRepository;
 
+    public List<FreelancerModel> findAllFreelancers() {
+        return freelancerRepository.findAll();
+    }
+
     public List<FreelancerModel> searchBySkill(String skill) {
         return freelancerRepository.findBySkill(skill);
     }

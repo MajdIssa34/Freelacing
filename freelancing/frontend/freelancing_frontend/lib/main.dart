@@ -12,6 +12,7 @@ class FreelancerSearchApp extends StatelessWidget {
       title: 'Freelancer Search',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomeScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

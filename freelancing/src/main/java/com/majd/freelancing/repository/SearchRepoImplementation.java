@@ -1,104 +1,122 @@
-package com.majd.freelancing.repository;
+// package com.majd.freelancing.repository;
 
-import com.majd.freelancing.module.FreelancerModel;
-import com.mongodb.client.AggregateIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.convert.MongoConverter;
-import org.springframework.stereotype.Component;
+// import com.majd.freelancing.module.FreelancerModel;
+// import com.mongodb.client.AggregateIterable;
+// import com.mongodb.client.MongoClient;
+// import com.mongodb.client.MongoCollection;
+// import com.mongodb.client.MongoDatabase;
+// import org.bson.Document;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.data.mongodb.core.convert.MongoConverter;
+// import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+// import java.util.ArrayList;
+// import java.util.Arrays;
+// import java.util.List;
 
-@Component
-public class SearchRepoImplementation implements SearchRepository{
+// @Component
+// public class SearchRepoImplementation implements SearchRepository{
 
-    @Autowired
-    MongoClient mongoClient;
+//     @Autowired
+//     MongoClient mongoClient;
 
-    @Autowired
-    MongoConverter mongoConverter;
+//     @Autowired
+//     MongoConverter mongoConverter;
 
-    @Override
-    public List<FreelancerModel> findBySkills(String text) {
+//     @Override
+//     public List<FreelancerModel> findBySkills(String text) {
 
-        final List<FreelancerModel> freelancers = new ArrayList<>();
+//         final List<FreelancerModel> freelancers = new ArrayList<>();
 
-        MongoDatabase database = mongoClient.getDatabase("freenlancers");
-        MongoCollection<Document> collection = database.getCollection("freelancePosts");
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-                new Document("index", "default")
-                        .append("text",
-                                new Document("query", text)
-                                        .append("path", "skills")))));
+//         MongoDatabase database = mongoClient.getDatabase("freenlancers");
+//         MongoCollection<Document> collection = database.getCollection("freelancePosts");
+//         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+//                 new Document("index", "default")
+//                         .append("text",
+//                                 new Document("query", text)
+//                                         .append("path", "skills")))));
 
-        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+//         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
 
-        return freelancers;
+//         return freelancers;
 
-    }
+//     }
 
-    @Override
-    public List<FreelancerModel> findByProjects(String text) {
+    
 
-        final List<FreelancerModel> freelancers = new ArrayList<>();
+//     @Override
+//     public List<FreelancerModel> findByProjects(String text) {
 
-        MongoDatabase database = mongoClient.getDatabase("freenlancers");
-        MongoCollection<Document> collection = database.getCollection("freelancePosts");
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-                new Document("index", "default")
-                        .append("text",
-                                new Document("query", text)
-                                        .append("path", "portfolio.projectName")))));
+//         final List<FreelancerModel> freelancers = new ArrayList<>();
 
-        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+//         MongoDatabase database = mongoClient.getDatabase("freenlancers");
+//         MongoCollection<Document> collection = database.getCollection("freelancePosts");
+//         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+//                 new Document("index", "default")
+//                         .append("text",
+//                                 new Document("query", text)
+//                                         .append("path", "portfolio.projectName")))));
 
-        return freelancers;
-    }
+//         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
 
-    @Override
-    public List<FreelancerModel> findBySkillsAndPortfolio(String skills, String portfolio) {
+//         return freelancers;
+//     }
 
-        final List<FreelancerModel> freelancers = new ArrayList<>();
+//     @Override
+//     public List<FreelancerModel> findBySkillsAndPortfolio(String skills, String portfolio) {
 
-        MongoDatabase database = mongoClient.getDatabase("freenlancers");
-        MongoCollection<Document> collection = database.getCollection("freelancePosts");
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-                new Document("index", "default")
-                        .append("compound",
-                                new Document("must", Arrays.asList(new Document("text",
-                                                new Document("query", skills)
-                                                        .append("path", "skills")),
-                                        new Document("text",
-                                                new Document("query", portfolio)
-                                                        .append("path", "portfolio.projectName"))))))));
+//         final List<FreelancerModel> freelancers = new ArrayList<>();
 
-        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+//         MongoDatabase database = mongoClient.getDatabase("freenlancers");
+//         MongoCollection<Document> collection = database.getCollection("freelancePosts");
+//         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+//                 new Document("index", "default")
+//                         .append("compound",
+//                                 new Document("must", Arrays.asList(new Document("text",
+//                                                 new Document("query", skills)
+//                                                         .append("path", "skills")),
+//                                         new Document("text",
+//                                                 new Document("query", portfolio)
+//                                                         .append("path", "portfolio.projectName"))))))));
 
-        return freelancers;
-    }
+//         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
 
-    @Override
-    public List<FreelancerModel> findByRating(Double max) {
+//         return freelancers;
+//     }
 
-        final List<FreelancerModel> freelancers = new ArrayList<>();
+//     @Override
+//     public List<FreelancerModel> findByRating(Double max) {
 
-        MongoDatabase database = mongoClient.getDatabase("freenlancers");
-        MongoCollection<Document> collection = database.getCollection("freelancePosts");
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
-                new Document("index", "default")
-                        .append("range",
-                                new Document("path", "rating")
-                                        .append("gte", max)))));
+//         final List<FreelancerModel> freelancers = new ArrayList<>();
 
-        result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+//         MongoDatabase database = mongoClient.getDatabase("freenlancers");
+//         MongoCollection<Document> collection = database.getCollection("freelancePosts");
+//         AggregateIterable<Document> result = collection.aggregate(Arrays.asList(new Document("$search",
+//                 new Document("index", "default")
+//                         .append("range",
+//                                 new Document("path", "rating")
+//                                         .append("gte", max)))));
 
-        return freelancers;
-    }
+//         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+
+//         return freelancers;
+//     }
 
 
-}
+
+// @Override
+// public List<FreelancerModel> findAll() {
+//         final List<FreelancerModel> freelancers = new ArrayList<>();
+
+//         MongoDatabase database = mongoClient.getDatabase("freenlancers");
+//         MongoCollection<Document> collection = database.getCollection("freelancePosts");
+
+//         AggregateIterable<Document> result = collection.aggregate(Arrays.asList());
+
+//         result.forEach(doc -> freelancers.add(mongoConverter.read(FreelancerModel.class, doc)));
+        
+//         return freelancers;
+// }
+
+
+// }

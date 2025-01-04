@@ -16,7 +16,7 @@ class SearchResultsScreen extends StatelessWidget {
       ),
       body: FutureBuilder<List<Freelancer>>(
         future: ApiService().searchFreelancers(queryParameters),
-        builder: (context, snapshot) {
+        builder: (context, snapshot) {         
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -24,8 +24,10 @@ class SearchResultsScreen extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No freelancers found.'));
           } else {
-            final freelancers = snapshot.data!;
+            final freelancers = snapshot.data!; 
+            print(freelancers.length);         
             return ListView.builder(
+              
               itemCount: freelancers.length,
               itemBuilder: (context, index) {
                 return FreelancerCard(freelancer: freelancers[index]);

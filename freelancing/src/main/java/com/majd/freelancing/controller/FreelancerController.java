@@ -15,6 +15,11 @@ public class FreelancerController {
     @Autowired
     private FreelancerService freelancerService;
 
+    @GetMapping("/all")
+    public List<FreelancerModel> searchAll() {
+        return freelancerService.findAllFreelancers();
+    }
+
     @GetMapping("/searchBySkill")
     public List<FreelancerModel> searchBySkill(@RequestParam String skill) {
         return freelancerService.searchBySkill(skill);

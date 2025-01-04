@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dart",
+			"command": "dart",
+			"cwd": "freelancing\\frontend\\freelancing_frontend",
+			"args": [
+				"doc",
+				"."
+			],
+			"problemMatcher": [],
+			"label": "dart: dart doc .",
+			"detail": "freelancing\\frontend\\freelancing_frontend"
+		}
+	]
+}

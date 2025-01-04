@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface FreelancerRepository extends MongoRepository<FreelancerModel, String> {
 
+    // // Get all freelancers
+    // @Query("{}")
+    // List<FreelancerModel> findAllFreelancers();
+
     // Search by skills
     @Query("{ 'skills': { $regex: ?0, $options: 'i' } }")
     List<FreelancerModel> findBySkill(String skill);

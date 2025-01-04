@@ -15,22 +15,22 @@ class Freelancer {
     required this.skills,
     required this.hourlyRate,
     required this.rating,
-    required this.availability,
     required this.portfolio,
+    required this.availability,
   });
 
   factory Freelancer.fromJson(Map<String, dynamic> json) {
     return Freelancer(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      location: json['location'] as String,
-      skills: List<String>.from(json['skills']),
-      hourlyRate: json['hourlyRate'] as double,
-      rating: json['rating'] as double,
-      availability: json['availability'] as bool,
-      portfolio: (json['portfolio'] as List<dynamic>)
+      id: json['id'] ?? '', // Default empty string if id is null
+      name: json['name'] ?? 'Unknown', // Default placeholder for name
+      location: json['location'] ?? 'Unknown Location', // Default location
+      skills: List<String>.from(json['skills'] ?? []), // Empty list if null
+      hourlyRate: (json['hourlyRate'] ?? 0).toDouble(), // Default 0.0 if null
+      rating: (json['rating'] ?? 0).toDouble(), // Default 0.0 if null
+      portfolio: (json['portfolio'] as List<dynamic>? ?? []) // Empty list if null
           .map((item) => PortfolioItem.fromJson(item))
           .toList(),
+      availability: json['availability'] ?? false, // Default false if null
     );
   }
 }
@@ -38,19 +38,16 @@ class Freelancer {
 class PortfolioItem {
   final String projectName;
   final String description;
-  final String url;
 
   PortfolioItem({
     required this.projectName,
     required this.description,
-    required this.url,
   });
 
   factory PortfolioItem.fromJson(Map<String, dynamic> json) {
     return PortfolioItem(
-      projectName: json['projectName'] as String,
-      description: json['description'] as String,
-      url: json['url'] as String,
+      projectName: json['projectName'] ?? 'Unknown Project', // Default project name
+      description: json['description'] ?? 'No description available.', // Default description
     );
   }
 }
