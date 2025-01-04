@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:freelancing_frontend/constants/my_button.dart';
+import 'package:freelancing_frontend/constants/text_field.dart';
 import 'search_results_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,21 +9,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _skillController = TextEditingController();
-  final _portfolioController = TextEditingController();
-  final _ratingController = TextEditingController();
+  final _inputController = TextEditingController();
+  String _selectedSearchType = 'Skill'; // Default search type
 
   void _searchFreelancers() {
-    final skill = _skillController.text.trim();
-    final portfolio = _portfolioController.text.trim();
-    final rating = _ratingController.text.trim();
+    final input = _inputController.text.trim();
 
     final queryParams = {
-      if (skill.isNotEmpty) 'skill': skill,
-      if (portfolio.isNotEmpty) 'portfolio': portfolio,
-      if (rating.isNotEmpty) 'rating': rating,
-      if (rating.isEmpty && portfolio.isEmpty && rating.isEmpty)'skill': "", 'portfolio': "", 'rating': "",
+      if(input.isEmpty) _selectedSearchType.toLowerCase(): "",
+      if(input.isNotEmpty) _selectedSearchType.toLowerCase():
+          input, // Use the selected search type as the key  
     };
+    print(queryParams);
 
     Navigator.push(
       context,
@@ -44,64 +42,100 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
           ),
         ),
+        backgroundColor: Colors.green.shade800,
         centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue, Colors.purple],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
         elevation: 4,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _skillController,
-              decoration: InputDecoration(
-                labelText: 'Skill',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: _portfolioController,
-              decoration: InputDecoration(
-                labelText: 'Portfolio Project',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: _ratingController,
-              decoration: InputDecoration(
-                labelText: 'Rating',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _searchFreelancers,
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.green.shade900,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(100),
+          child: Row(
+            children: [
+              DropdownButton<String>(
+                borderRadius: BorderRadius.circular(20),
+                alignment: Alignment.topLeft,
+                value: _selectedSearchType,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedSearchType = value!;
+                  });
+                },
+                items: ['Skill', 'Portfolio', 'Rating']
+                    .map((type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
+                        ))
+                    .toList(),
+                dropdownColor: Colors.green.shade800,
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                underline: Container(
+                  height: 2,
+                  color: Colors.green,
                 ),
-                backgroundColor: Colors.blueAccent,
               ),
-              child: Text(
-                'Search Freelancers',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: _buildFuturisticTextField(
+                                  controller: _inputController,
+                                  label: 'Enter $_selectedSearchType',
+                                  keyboardType: _selectedSearchType == 'Rating'
+                                      ? TextInputType.number
+                                      : TextInputType.text,
+                                ),
+                              ),
+                            ),
+                            MyButton(onTap: _searchFreelancers, str: "Search"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+              Container(
+                width: 400, // Adjust this value to make the image smaller
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/BG.png"),
+                    fit: BoxFit
+                        .contain, // Adjust how the image scales within the container
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFuturisticTextField({
+    required TextEditingController controller,
+    required String label,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return MyTextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      hintText: Text(label),
     );
   }
 }

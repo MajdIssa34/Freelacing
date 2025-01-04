@@ -7,12 +7,12 @@ class ApiService {
   Uri uri = Uri.parse("");
 
   Future<List<Freelancer>> searchFreelancers(Map<String, String> queryParams) async {
-    if(isEmpty(queryParams)){
+    if(queryParams.containsValue("")){
       uri = Uri.parse('$baseUrl/freelancers/all');
     }else{
       uri = Uri.parse('$baseUrl/freelancers/search').replace(queryParameters: queryParams);
     }
-    
+    print(uri);
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
