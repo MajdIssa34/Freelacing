@@ -6,7 +6,7 @@ class ApiService {
   static const String baseUrl = 'http://localhost:8081/api';
   Uri uri = Uri.parse("");
 
-  Future<List<Freelancer>> searchFreelancers(Map<String, String> queryParams) async {
+  Future<List<Freelancer>> searchFreelancers(Map<String, dynamic> queryParams) async {
     if(queryParams.containsValue("")){
       uri = Uri.parse('$baseUrl/freelancers/all');
     }else{

@@ -21,15 +21,14 @@ class MyTextField extends StatelessWidget {
       child: TextField(
         style: GoogleFonts.poppins(
           color: Colors.black,
-
         ),
         controller: controller,
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade500),
+              borderSide: BorderSide(color: Colors.white),
             ),
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black87),
+              borderSide: BorderSide(color: Colors.black38, width: 1.3),
             ),
             fillColor: Colors.grey.shade200,
             filled: true,

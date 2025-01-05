@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:freelancing_frontend/constants/my_button.dart';
 import 'package:freelancing_frontend/constants/text_field.dart';
 import 'search_results_screen.dart';
@@ -16,12 +17,22 @@ class _HomeScreenState extends State<HomeScreen> {
     final input = _inputController.text.trim();
 
     final queryParams = {
-      if(input.isEmpty) _selectedSearchType.toLowerCase(): "",
-      if(input.isNotEmpty) _selectedSearchType.toLowerCase():
-          input, // Use the selected search type as the key  
+      if (input.isEmpty) _selectedSearchType.toLowerCase(): "",
+      if (input.isNotEmpty) _selectedSearchType.toLowerCase(): input,
     };
-    print(queryParams);
 
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResultsScreen(queryParameters: queryParams),
+      ),
+    );
+  }
+
+  void _searchFreelancers2(String searchType, String text){
+    final queryParams = {
+      searchType: text
+    };
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -35,14 +46,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Freelancer Search',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Colors.white,
+          "FREE LANCER SEARCH",
+          style: GoogleFonts.poppins(
+            textStyle: TextStyle(
+              //fontSize: 45,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+              color: Colors.green.shade900,
+            ),
           ),
+          textAlign: TextAlign.start,
         ),
-        backgroundColor: Colors.green.shade800,
+        backgroundColor: Colors.green.shade900.withOpacity(0.2),
         centerTitle: true,
         elevation: 4,
       ),
@@ -54,69 +69,98 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(100),
           child: Row(
             children: [
-              DropdownButton<String>(
-                borderRadius: BorderRadius.circular(20),
-                alignment: Alignment.topLeft,
-                value: _selectedSearchType,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedSearchType = value!;
-                  });
-                },
-                items: ['Skill', 'Portfolio', 'Rating']
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                    .toList(),
-                dropdownColor: Colors.green.shade800,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                underline: Container(
-                  height: 2,
-                  color: Colors.green,
-                ),
-              ),
+              // Column containing text, dropdown, input, and button
               Expanded(
-                flex: 2,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: _buildFuturisticTextField(
-                                  controller: _inputController,
-                                  label: 'Enter $_selectedSearchType',
-                                  keyboardType: _selectedSearchType == 'Rating'
-                                      ? TextInputType.number
-                                      : TextInputType.text,
-                                ),
-                              ),
-                            ),
-                            MyButton(onTap: _searchFreelancers, str: "Search"),
-                          ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Heading text
+                    Text(
+                      "Hire Experts For Your Projects",
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                        height: 20), // Spacing between heading and search bar
+                    // Row for dropdown, input, and button
+                    Row(
+                      children: [
+                        DropdownButton<String>(
+                          borderRadius: BorderRadius.circular(20),
+                          alignment: Alignment.topLeft,
+                          value: _selectedSearchType,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedSearchType = value!;
+                            });
+                          },
+                          items: ['Skill', 'Portfolio', 'Rating']
+                              .map((type) => DropdownMenuItem(
+                                    value: type,
+                                    child: Text(type,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),),
+                                  ))
+                              .toList(),
+                          dropdownColor: Colors.green.shade800,
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.green,
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: _buildFuturisticTextField(
+                              controller: _inputController,
+                              label: 'Enter $_selectedSearchType',
+                              keyboardType: _selectedSearchType == 'Rating'
+                                  ? TextInputType.number
+                                  : TextInputType.text,
+                            ),
+                          ),
+                        ),
+                        MyButton(onTap: _searchFreelancers, str: "Search"),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Suggested Searches:",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,              
+                          ),
+                        ),
+                        MyButton(onTap: (){ _searchFreelancers2("skill", "Java");}, str: "Java"),
+                        MyButton(onTap: (){_searchFreelancers2("portfolio", "Web");}, str: "Web Developer"),
+                        MyButton(onTap: (){_searchFreelancers2("rating", "4.5");}, str: "> 4.5 Stars"),
+                      ],
+                    )
+                  ],
                 ),
               ),
+              // Image
               Container(
                 width: 400, // Adjust this value to make the image smaller
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/BG.png"),
-                    fit: BoxFit
-                        .contain, // Adjust how the image scales within the container
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
