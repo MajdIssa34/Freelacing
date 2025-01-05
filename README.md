@@ -1,5 +1,11 @@
 # Freelancer Search Platform
 
+
+
+https://github.com/user-attachments/assets/370a5219-b5b6-4fcd-b8db-c7e0f69bd528
+
+
+
 ## Overview
 This project is a **Freelancer Search Platform** designed to help users find freelancers based on skills, portfolio projects, and ratings. The platform provides a user-friendly interface to search, view, and filter freelancer profiles dynamically.
 
@@ -7,7 +13,7 @@ This project is a **Freelancer Search Platform** designed to help users find fre
 - **Search by Skill**: Users can search freelancers by specific skills.
 - **Search by Portfolio Projects**: Users can find freelancers who have worked on particular types of projects.
 - **Search by Rating**: Users can filter freelancers based on their ratings.
-- **Responsive UI**: Clean and responsive interface built using HTML, CSS, and JavaScript.
+- **Responsive UI**: Clean and responsive interface built using Flutter.
 
 ## Technology Stack
 
@@ -17,7 +23,7 @@ This project is a **Freelancer Search Platform** designed to help users find fre
 - **Database**: MongoDB (with Atlas Search)
 
 ### Frontend:
-- **Technologies**: HTML, CSS, JavaScript
+- **Technology**: Flutter
 - **AJAX**: To interact with the backend APIs dynamically
 
 ### Tools:
@@ -31,7 +37,7 @@ This project is a **Freelancer Search Platform** designed to help users find fre
 - Java 11 or higher
 - Maven
 - MongoDB Atlas account
-- Node.js and npm (optional for additional tooling)
+- Flutter SDK
 
 ### Steps to Run
 
@@ -53,13 +59,16 @@ This project is a **Freelancer Search Platform** designed to help users find fre
    mvn spring-boot:run
    ```
 
-4. **Launch the Frontend**:
-   Open the `src/main/resources/static/index.html` file in your browser or use a local server (e.g., `Live Server` extension in VS Code).
+4. **Launch the Flutter Frontend**:
+   In the Flutter project directory, run:
+   ```bash
+   flutter run
+   ```
 
 ## Usage
 
 ### Searching Freelancers
-1. Open the application in your browser.
+1. Open the application in your Flutter app.
 2. Enter search criteria in the form (e.g., skills, portfolio project name, or rating).
 3. Click on the **Search** button.
 4. View the search results dynamically displayed below the form.
@@ -95,28 +104,6 @@ This project is a **Freelancer Search Platform** designed to help users find fre
      ]
      ```
 
-## Project Structure
-```plaintext
-freelancer-search/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── com.example.freelancersearch/
-│   │   │   │   ├── controller/
-│   │   │   │   ├── model/
-│   │   │   │   ├── repository/
-│   │   │   │   ├── service/
-│   │   ├── resources/
-│   │       ├── application.properties
-│   │       ├── static/
-│   │           ├── index.html
-│   │           ├── styles.css
-│   │           ├── script.js
-│   ├── test/
-├── pom.xml
-└── README.md
-```
-
 ## Contributing
 1. Fork the repository.
 2. Create a new branch for your feature: `git checkout -b feature-name`.
@@ -124,9 +111,8 @@ freelancer-search/
 4. Push to the branch: `git push origin feature-name`.
 5. Open a pull request.
 
-
 ## Acknowledgments
 - MongoDB Atlas Search for powering the search functionality.
 - Spring Boot for robust backend development.
+- Flutter for a modern, responsive frontend.
 - Open-source contributors and documentation.
-
